@@ -37,19 +37,34 @@ class ConfigLoader:
 
         return cls._instance
 
+    def generate_config(self):
+        my_uid = uuid.uuid4()
+        config = yaml.load(example_doc, Loader=yaml.Loader)
+        config["server"].update({"uid": str(my_uid)})
+        tmp_doc = yaml.dump(config)
+        return tmp_doc
+
     def load_yaml(self):
         path_exist = os.path.exists(self.config_path)
 
         if not path_exist:
-            my_uid = uuid.uuid4()
-            config = yaml.load(example_doc, Loader=yaml.Loader)
-            config["server"].update({"uid": str(my_uid)})
-            tmp_doc = yaml.dump(config)
             with open(self.config_path, "w+", encoding="utf-8") as f:
-                f.write(tmp_doc)
+                f.write(self.generate_config())
 
         else:
-            with open(self.config_path, "w+", encoding="utf-8") as f:
-                config = yaml.load(f, Loader=yaml.Loader)
+            with open(self.config_path, "r+", encoding="utf-8") as f:
+                loaded = yaml.load(f, Loader=yaml.Loader)
+
+                is_loaded_legal = (hasattr(loaded, "server") 
+                                   and hasattr(loaded, "updatefreq") 
+                                   and hasattr(loaded, "encodingkey") 
+                                   and hasattr(loaded, "name"))
+
+                if is_loaded_legal:
+                    config = loaded
+
+                else:
+                    raise Exception("配置文件异常，请检查yaml文件")
+                    config = yaml.load(self.generate_config(), Loader=yaml.Loader)
 
         return config

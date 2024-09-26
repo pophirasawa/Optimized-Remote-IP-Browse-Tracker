@@ -5,13 +5,21 @@ from utils import resource_path
 from send_message_util import SendMessageUtil
 import time
 import sys
+import os
 from pystray import Icon, Menu, MenuItem
 from PIL import Image
 import threading
 
 
 def run():
-    config = ConfigLoader().config
+    try:
+        config = ConfigLoader().config
+    except Exception as e:
+        # icon.stop()
+        print(e)
+        # sys.exit()
+        os._exit(0)
+
     my_crypto_util = CryptoUtil(config)
     my_get_address_util = GetAddressUtil(config)
     my_send_message_util = SendMessageUtil(config, my_get_address_util, my_crypto_util)
