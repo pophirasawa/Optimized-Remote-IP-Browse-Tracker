@@ -53,5 +53,5 @@ icon = Icon(
 
 
 if __name__ == "__main__":
-    icon.run_detached()
     run()
+    icon.run_detached()
