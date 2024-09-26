@@ -96,7 +96,6 @@ class SendMessageUtil(threading.Thread):
                 print(e)
 
     def __get_authorization_sign(self, timestamp: str) -> str:
-        print(timestamp)
         authorization_sign = self.authorization + timestamp
         authorization_sign = SHA256Hash(authorization_sign.encode("utf-8")).hexdigest()
         return authorization_sign

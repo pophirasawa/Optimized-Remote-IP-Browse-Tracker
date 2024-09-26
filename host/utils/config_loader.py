@@ -68,7 +68,9 @@ class ConfigLoader:
 
         if not path_exist:
             with open(self.config_path, "w+", encoding="utf-8") as f:
-                f.write(self.generate_config())
+                new_config = self.generate_config()
+                f.write(new_config)
+                config = yaml.load(new_config, Loader=yaml.Loader)
 
         else:
             with open(self.config_path, "r+", encoding="utf-8") as f:
@@ -80,6 +82,6 @@ class ConfigLoader:
                     config = loaded
 
                 else:
-                    raise Exception("配置文件异常，请检查yaml文件")
+                    raise Exception("配置文件异常, 请检查yaml文件")
 
         return config
