@@ -37,4 +37,4 @@ jobs:
         body_path: ./CHANGELOG.md
         
         files: |
-            dist/**
+            host/dist/**
