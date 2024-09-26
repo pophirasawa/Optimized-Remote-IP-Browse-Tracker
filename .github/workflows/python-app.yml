@@ -38,5 +38,5 @@ jobs:
       with:
         run: |
           cd host/dist
-        files:
+        files: |
           **
