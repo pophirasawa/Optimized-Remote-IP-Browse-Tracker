@@ -1,6 +1,7 @@
 from utils import ConfigLoader
 from utils import GetAddressUtil
 from utils import CryptoUtil
+from utils import resource_path
 from send_message_util import SendMessageUtil
 import time
 import sys
@@ -41,7 +42,7 @@ def on_quit():
 icon = Icon(
     name="My App",
     title="My Application",
-    icon=Image.open("1.jpg"),
+    icon=Image.open(resource_path("assets/1.jpg")),
     menu=Menu(
         MenuItem("Quit", on_quit)
     )

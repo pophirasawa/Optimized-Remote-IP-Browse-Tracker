@@ -3,3 +3,7 @@
 */__pycache__/
 *.yaml
 *.pyc
+envs/
+
+host/build
+host/dist
