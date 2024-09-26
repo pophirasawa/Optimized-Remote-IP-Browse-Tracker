@@ -12,14 +12,7 @@ import threading
 
 
 def run():
-    try:
-        config = ConfigLoader().config
-    except Exception as e:
-        # icon.stop()
-        print(e)
-        # sys.exit()
-        os._exit(0)
-
+    config = ConfigLoader().config
     my_crypto_util = CryptoUtil(config)
     my_get_address_util = GetAddressUtil(config)
     my_send_message_util = SendMessageUtil(config, my_get_address_util, my_crypto_util)
@@ -61,5 +54,5 @@ icon = Icon(
 
 
 if __name__ == "__main__":
-    icon.run_detached()
     run()
+    icon.run_detached()
