@@ -6,7 +6,8 @@ name: Python application
 on:
   push:
     branches: [ "release" ]
-
+    tags:
+    - 'V**'
 
 permissions:
   contents: read
