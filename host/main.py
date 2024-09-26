@@ -41,7 +41,7 @@ def on_quit():
 icon = Icon(
     name="My App",
     title="My Application",
-    icon=Image.open("1.ico"),
+    icon=Image.open("1.jpg"),
     menu=Menu(
         MenuItem("Quit", on_quit)
     )
