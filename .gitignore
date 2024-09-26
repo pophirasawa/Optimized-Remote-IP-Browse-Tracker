@@ -4,7 +4,7 @@
 *.yaml
 *.pyc
 envs/
-
+test.py
 host/build
 host/dist
 host/test.py
