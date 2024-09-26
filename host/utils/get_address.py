@@ -48,12 +48,14 @@ class GetAddressUtil(threading.Thread):
         while(True):
             if self.write_lock.locked():
                 continue
+            time.sleep(1)
             return  self.v4_address
 
     def get_v6_address(self)->str:
         while(True):
             if self.write_lock.locked():
                 continue
+            time.sleep(1)
             return  self.v6_address
 
     @classmethod
