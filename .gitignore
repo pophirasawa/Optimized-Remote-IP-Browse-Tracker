@@ -7,3 +7,7 @@ envs/
 
 host/build
 host/dist
+host/test.py
+.vscode/launch.json
+host/tempCodeRunnerFile.py
+host/.vscode/launch.json
