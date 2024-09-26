@@ -28,9 +28,10 @@ def run():
             if connect_condition[0] is True:
                 connect_info += "Good\n"
             else:
-                connect_info += "Bad\n"
-            connect_info += "Ipv4: " + connect_condition[1] + "\n"
-            connect_info += "Ipv6: " + connect_condition[2]
+
+                connect_info += 'Bad\n'
+            connect_info += 'Ipv4: ' + str(connect_condition[1]) +'\n'
+            connect_info += 'Ipv6: ' + str(connect_condition[2])
 
             icon.title = connect_info
 
@@ -45,7 +46,7 @@ def on_quit():
 
 icon = Icon(
     name="My App",
-    title="My Application",
+    title="Initalizing...",
     icon=Image.open(resource_path("assets/1.jpg")),
     menu=Menu(MenuItem("Quit", on_quit)),
 )
