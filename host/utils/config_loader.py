@@ -49,7 +49,7 @@ class ConfigLoader:
                 f.write(tmp_doc)
 
         else:
-            with open(self.config_path, "w+", encoding="utf-8") as f:
+            with open(self.config_path, "r", encoding="utf-8") as f:
                 config = yaml.load(f, Loader=yaml.Loader)
 
         return config
