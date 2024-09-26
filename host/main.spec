@@ -10,7 +10,8 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['pyinstall', 'pyinstaller', 'pip'
+    ,'pyinstaller-hooks-contrib','pyflakes'],
     noarchive=False,
     optimize=0,
 )
