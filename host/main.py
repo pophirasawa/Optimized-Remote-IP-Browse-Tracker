@@ -5,6 +5,7 @@ from utils import resource_path
 from send_message_util import SendMessageUtil
 import time
 import sys
+import os
 from pystray import Icon, Menu, MenuItem
 from PIL import Image
 import threading
@@ -55,3 +56,4 @@ icon = Icon(
 if __name__ == "__main__":
     run()
     icon.run_detached()
+
