@@ -35,6 +35,6 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         body_path: ./CHANGELOG.md
-        
+
         files: |
             /home/runner/work/Optimized-Remote-IP-Browse-Tracker/Optimized-Remote-IP-Browse-Tracker/host/dist/
