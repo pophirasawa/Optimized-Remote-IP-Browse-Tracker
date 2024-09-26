@@ -55,8 +55,7 @@ class GetAddressUtil(threading.Thread):
                 continue
 
             time.sleep(1)
-            return  self.v4_address
-
+            return self.v4_address
 
     def get_v6_address(self) -> str:
         while True:
@@ -64,11 +63,10 @@ class GetAddressUtil(threading.Thread):
                 continue
 
             time.sleep(1)
-            return  self.v6_address
-
+            return self.v6_address
 
     @classmethod
-    def __get_v4_address(cls) -> str:
+    def __get_v4_address(cls) -> str | None:
         try:
             # 创建一个UDP socket对象
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -85,7 +83,7 @@ class GetAddressUtil(threading.Thread):
             return None
 
     @classmethod
-    def __get_v6_address(cls) -> str:
+    def __get_v6_address(cls) -> str | None:
         try:
             s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
             s.connect(("240c::6666", 80))
@@ -99,11 +97,13 @@ class GetAddressUtil(threading.Thread):
 
             for i in addr_list:
                 addr = i[4][0]
-                not_local_or_temporary = addr[0:4] != "fe80" and addr != temporary_v6_address
-                
+                not_local_or_temporary = (
+                    addr[0:4] != "fe80" and addr != temporary_v6_address
+                )
+
                 if not_local_or_temporary:
                     ip = addr
-                    
+
             if ip is None:
                 ip = temporary_v6_address
             return ip
@@ -116,7 +116,7 @@ class GetAddressUtil(threading.Thread):
 if __name__ == "__main__":
     my_address_util = GetAddressUtil(30)
     my_address_util.start()
-    
+
     while True:
         time.sleep(5)
         a = my_address_util.get_v4_address()

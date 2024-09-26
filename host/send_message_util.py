@@ -28,7 +28,7 @@ class SendMessageUtil(threading.Thread):
             data = self.__get_local_info()
             if self.v4_address is None:
                 continue
-            
+
             self.__send_local_info(data)
             time.sleep(5)
 
@@ -65,7 +65,7 @@ class SendMessageUtil(threading.Thread):
                     time.sleep(1)
                     print(r)
                 self.connect_condition = success
-                
+
             except Exception as e:
                 self.connect_condition = success
                 time.sleep(1)

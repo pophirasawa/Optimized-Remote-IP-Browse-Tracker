@@ -51,5 +51,5 @@ class ConfigLoader:
         else:
             with open(self.config_path, "w+", encoding="utf-8") as f:
                 config = yaml.load(f, Loader=yaml.Loader)
-                
+
         return config

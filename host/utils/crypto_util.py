@@ -9,13 +9,13 @@ class CryptoUtil:
     加密工具,使用AES_CBC
     """
 
-    _instance = None    
+    _instance = None
     _init = False
 
     def __init__(self, config=None):
         if self._init is True and config is None:
             return
-        
+
         self._init = True
         if not hasattr(self, "config"):
             self.config = config
@@ -27,7 +27,7 @@ class CryptoUtil:
             cls._instance = super(CryptoUtil, cls).__new__(cls)
         return cls._instance
 
-    def encode(self, text) -> str:
+    def encode(self, text) -> str | None:
         if not text:
             return
         iv = self.key  # iv偏移量，bytes类型
@@ -36,10 +36,10 @@ class CryptoUtil:
         encrypt_text = aes.encrypt(byte_text)
         return base64.encodebytes(encrypt_text).decode("utf-8")
 
-    def decode(self, encrypt_text) -> str:
+    def decode(self, encrypt_text) -> str | None:
         if not encrypt_text:
             return encrypt_text
-        
+
         iv = self.key
         encrypt_text = base64.decodebytes(encrypt_text.encode("utf-8"))
         aes = AES.new(self.key, AES.MODE_CBC, iv)

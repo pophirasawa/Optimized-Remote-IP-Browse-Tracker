@@ -29,9 +29,9 @@ def run():
                 connect_info += "Good\n"
             else:
 
-                connect_info += 'Bad\n'
-            connect_info += 'Ipv4: ' + str(connect_condition[1]) +'\n'
-            connect_info += 'Ipv6: ' + str(connect_condition[2])
+                connect_info += "Bad\n"
+            connect_info += "Ipv4: " + str(connect_condition[1]) + "\n"
+            connect_info += "Ipv6: " + str(connect_condition[2])
 
             icon.title = connect_info
 
