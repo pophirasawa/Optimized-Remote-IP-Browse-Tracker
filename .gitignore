@@ -1,0 +1,5 @@
+.venv/
+.VSCodeCounter/
+*/__pycache__/
+*.yaml
+*.pyc
