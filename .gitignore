@@ -14,5 +14,5 @@ host/tempCodeRunnerFile.py
 host/.vscode/launch.json
 **.db
 instance/
-uswgi/
-uswgi.ini
+uwsgi/
+uwsgi.ini
