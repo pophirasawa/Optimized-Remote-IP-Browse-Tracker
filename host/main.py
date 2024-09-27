@@ -2,7 +2,7 @@ from utils import ConfigLoader
 from utils import GetAddressUtil
 from utils import CryptoUtil
 from utils import resource_path
-from send_message_util import SendMessageUtil
+from info_synchronizer import InfoSynchronizer
 import time
 import sys
 import os
@@ -15,7 +15,7 @@ def run():
     config = ConfigLoader().config
     my_crypto_util = CryptoUtil(config)
     my_get_address_util = GetAddressUtil(config)
-    my_send_message_util = SendMessageUtil(config, my_get_address_util, my_crypto_util)
+    my_send_message_util = InfoSynchronizer(config, my_get_address_util, my_crypto_util)
     my_get_address_util.start()
     my_send_message_util.start()
 
@@ -56,4 +56,3 @@ icon = Icon(
 if __name__ == "__main__":
     run()
     icon.run_detached()
-

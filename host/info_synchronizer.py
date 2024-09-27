@@ -7,7 +7,7 @@ import time
 import json
 
 
-class SendMessageUtil(threading.Thread):
+class InfoSynchronizer(threading.Thread):
     """发送加密后的IP地址
     headers:
         - authorization = SHA256(authorization_key + timestamp)
