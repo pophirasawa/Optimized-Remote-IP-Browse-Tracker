@@ -4,8 +4,6 @@ from utils import CryptoUtil
 from utils import resource_path
 from info_synchronizer import InfoSynchronizer
 import time
-import sys
-import os
 from pystray import Icon, Menu, MenuItem
 from PIL import Image
 import threading
