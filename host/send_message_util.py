@@ -42,7 +42,9 @@ class SendMessageUtil(threading.Thread):
             if self.v4_address is None:
                 continue
 
-            self.__send_local_info(data, header)
+            send = threading.Thread(target=self.__send_local_info, args=[data, header])
+            send.daemon = True
+            send.start()
             time.sleep(5)
 
     def get_condition(self):
@@ -77,23 +79,20 @@ class SendMessageUtil(threading.Thread):
 
     def __send_local_info(self, data, header):
         success = False
-        while not success:
-            try:
-                r = requests.request(
-                    "GET", self.server_address, data=data, headers=header, timeout=5
-                )
+        try:
+            r = requests.request(
+                "GET", self.server_address, data=data, headers=header, timeout=10
+            )
 
-                if r.status_code == 200:
-                    success = True
-                else:
-                    time.sleep(1)
-                    print(r)
-                self.connect_condition = success
+            if r.status_code == 200:
+                success = True
+            else:
+                print(r)
+            self.connect_condition = success
 
-            except Exception as e:
-                self.connect_condition = success
-                time.sleep(1)
-                print(e)
+        except Exception as e:
+            self.connect_condition = success
+            print(e)
 
     def __get_authorization_sign(self, timestamp: str) -> str:
         authorization_sign = self.authorization + timestamp
