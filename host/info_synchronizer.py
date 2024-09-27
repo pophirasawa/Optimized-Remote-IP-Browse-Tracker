@@ -83,7 +83,11 @@ class InfoSynchronizer(threading.Thread):
         success = False
         try:
             r = requests.request(
-                "GET", self.server_address, data=data, headers=header, timeout=10
+                "GET",
+                self.server_address + self.SynchronizerRouting,
+                data=data,
+                headers=header,
+                timeout=10,
             )
 
             if r.status_code == 200:
