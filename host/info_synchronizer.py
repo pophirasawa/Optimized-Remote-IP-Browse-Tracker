@@ -20,6 +20,8 @@ class InfoSynchronizer(threading.Thread):
         - ipv6
     """
 
+    SynchronizerRouting = "/synchronize"
+
     def __init__(
         self, config, get_address_util: GetAddressUtil, crypto_util: CryptoUtil
     ):
