@@ -88,6 +88,7 @@ class InfoSynchronizer(threading.Thread):
                 data=data,
                 headers=header,
                 timeout=10,
+                verify=False,
             )
 
             if r.status_code == 200:

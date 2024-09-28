@@ -17,7 +17,7 @@ def update_data(data: dict, timestamp: str) -> bool:
         db.session.add(new_data)
     else:
         now_time = float(time.time())
-        if now_time > float(timestamp):
+        if now_time < float(timestamp) + 30:
             Data.query.filter(Data.uid == data_uid).update(
                 {"ipv4": ipv4, "ipv6": ipv6, "timestamp": timestamp, "name": name}
             )
