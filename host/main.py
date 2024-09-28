@@ -1,5 +1,6 @@
 from utils import ConfigLoader
 from utils import GetAddressUtil
+from utils import GetExtraInfoUtil
 from utils import CryptoUtil
 from utils import resource_path
 from info_synchronizer import InfoSynchronizer
@@ -13,10 +14,14 @@ def run():
     config = ConfigLoader().config
     my_crypto_util = CryptoUtil(config)
     my_get_address_util = GetAddressUtil(config)
-    my_send_message_util = InfoSynchronizer(config, my_get_address_util, my_crypto_util)
+    net_speed_measure = GetExtraInfoUtil.UpdateNetSpeed()
+
+    my_send_message_util = InfoSynchronizer(config, my_get_address_util, my_crypto_util, net_speed_measure)
     my_get_address_util.start()
     my_send_message_util.start()
+    net_speed_measure.start()
 
+    
     def main_loop():
         while True:
             time.sleep(1)
@@ -27,7 +32,6 @@ def run():
             if connect_condition[0] is True:
                 connect_info += "Good\n"
             else:
-
                 connect_info += "Bad\n"
             connect_info += "Ipv4: " + str(connect_condition[1]) + "\n"
             connect_info += "Ipv6: " + str(connect_condition[2])

@@ -4,13 +4,14 @@ import uuid
 
 example_config = yaml.load(
     """
+    encodingkey: yourencodingkey
+    name: hostname
     server:
-        address: 'yourSeverAddress'
-        authorization: 'yourauthorizationkey'
-        uid: someuid
-    updatefreq: 10
-    encodingkey: 'yourencodingkey'
-    name: 'hostname'
+        address: yourSeverAddress
+        authorization: yourauthorizationkey
+        uid: 91b15bbe-4465-45b4-8f32-0f6637865dec
+    updatefreq: 30
+    extra: [netSpeed, cpuUsage]
     """,
     Loader=yaml.Loader,
 )
@@ -49,16 +50,16 @@ class ConfigLoader:
         return tmp_doc
 
     def check_config(self, config):
-        if config.keys() != example_config.keys():
+        if not set(example_config.keys()).issubset(set(config.keys())):
             return False
-
+        
         # 检查嵌套字典
         for key in example_config.keys():
             if isinstance(example_config[key], dict):
                 if not isinstance(config[key], dict):
                     return False
 
-                if config[key].keys() != example_config[key].keys():
+                if not set(example_config[key].keys()).issubset(set(config[key].keys())):
                     return False
 
         return True
