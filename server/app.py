@@ -45,9 +45,10 @@ def update_data():
 
 
 @app.route("/getdata")
-@check_authorization
+# @check_authorization
 def get_data():
     datas = database.get_all_data()
+    print(datas)
     return datas
 
 

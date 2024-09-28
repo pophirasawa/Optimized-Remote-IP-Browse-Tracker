@@ -8,7 +8,7 @@ example_config = yaml.load(
         address: 'yourSeverAddress'
         authorization: 'yourauthorizationkey'
         uid: someuid
-    updatefreq: 30
+    updatefreq: 10
     encodingkey: 'yourencodingkey'
     name: 'hostname'
     """,

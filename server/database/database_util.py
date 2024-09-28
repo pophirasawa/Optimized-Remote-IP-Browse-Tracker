@@ -14,6 +14,7 @@ def update_data(data: dict, timestamp: str) -> bool:
         new_data = Data(
             uid=data_uid, ipv4=ipv4, ipv6=ipv6, timestamp=timestamp, name=name
         )
+        print(new_data.name)
         db.session.add(new_data)
     else:
         now_time = float(time.time())
@@ -45,7 +46,7 @@ def get_all_data() -> list:
             "online": check_online(data.timestamp, now_time),
         }
         res.append(dict_data)
-    return dict_data
+    return res
 
 
 def check_online(time1: str, nowtime: str) -> bool:
