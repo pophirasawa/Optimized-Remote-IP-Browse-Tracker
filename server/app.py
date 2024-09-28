@@ -18,7 +18,16 @@ def create_app():
     return app
 
 
-app = create_app()
+def init_app(app):
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mydatabase.db"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
+
+
+app = Flask(__name__)
+init_app(app)
 
 
 @app.route("/synchronize")
