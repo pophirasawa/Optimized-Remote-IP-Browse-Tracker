@@ -44,7 +44,7 @@ class MessageUtil:
         if (
             "Authorization" in dict_headers
             and "Timestamp" in dict_headers
-            and "Sign" in dict_headers
+            # and "Sign" in dict_headers
         ) is False:
             return False
 
@@ -55,10 +55,9 @@ class MessageUtil:
 
     def check_data_sign(self, headers, data: dict) -> bool:
         dict_headers = dict(headers)
-        return (
-            self.__get_data_sign(data, dict_headers["Timestamp"])
-            == dict_headers["Sign"]
-        )
+        return self.__get_data_sign(
+            data, dict_headers["Timestamp"]
+        ) == dict_headers.get("Sign")
 
     def __get_authorization_sign(self, timestamp: str) -> str:
         authorization_sign = self.authorization + timestamp

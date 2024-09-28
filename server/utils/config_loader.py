@@ -8,6 +8,7 @@ example_config = yaml.load(
     encodingkey: 'yourencodingkey'
     name: 'hostname'
     port: 1111
+    updatefreq: 10
     """,
     Loader=yaml.Loader,
 )

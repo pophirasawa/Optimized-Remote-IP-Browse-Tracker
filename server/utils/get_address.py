@@ -39,6 +39,7 @@ class GetAddressUtil(threading.Thread):
 
     def run(self):
         while True:
+
             new_v4_address = self.__get_v4_address()
             new_v6_address = self.__get_v6_address()
             with self.write_lock:
@@ -55,7 +56,7 @@ class GetAddressUtil(threading.Thread):
                 continue
 
             time.sleep(1)
-            return self.v4_address
+            return str(self.v4_address)
 
     def get_v6_address(self) -> str:
         while True:
@@ -63,7 +64,7 @@ class GetAddressUtil(threading.Thread):
                 continue
 
             time.sleep(1)
-            return self.v6_address
+            return str(self.v6_address)
 
     @classmethod
     def __get_v4_address(cls) -> str | None:
