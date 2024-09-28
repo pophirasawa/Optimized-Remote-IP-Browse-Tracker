@@ -19,6 +19,8 @@ def create_app():
 
 
 def init_app(app):
+    my_config = ConfigLoader().config
+    my_message_util = MessageUtil(my_config)
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mydatabase.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
