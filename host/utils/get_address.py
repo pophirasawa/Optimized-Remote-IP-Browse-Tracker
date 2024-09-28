@@ -18,9 +18,9 @@ class GetAddressUtil(threading.Thread):
     v6_address: str = None
 
     def __init__(self, config=None):
-        threading.Thread.__init__(self)
         if self._init and not config:
             return
+        threading.Thread.__init__(self)
 
         DEFAULT_UPDATE_FREQ = 30
         self._init = True
