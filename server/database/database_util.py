@@ -40,6 +40,7 @@ def get_all_data() -> list:
     now_time = str(time.time())
     for data in all_data:
         dict_data = {
+            "uid": data.uid,
             "ipv4": data.ipv4,
             "ipv6": data.ipv6,
             "name": data.name,
