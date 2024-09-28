@@ -49,6 +49,12 @@ def get_data():
     return datas
 
 
+@app.route("/test")
+def test():
+
+    return "1"
+
+
 if __name__ == "__main__":
     my_config = ConfigLoader().config
     port = my_config["port"]
