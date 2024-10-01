@@ -119,6 +119,7 @@ class InfoSynchronizer(threading.Thread):
         authorization_sign = self.__get_authorization_sign(timestamp)
         data_sign = self.__get_data_sign(data, timestamp)
         header = {
+            "Connection": "close",
             "authorization": authorization_sign,
             "sign": data_sign,
             "timestamp": timestamp,
@@ -130,7 +131,7 @@ class InfoSynchronizer(threading.Thread):
         success = False
         try:
             r = requests.request(
-                "GET",
+                "POST",
                 self.server_address + self.SynchronizerRouting,
                 data=data,
                 headers=header,

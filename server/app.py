@@ -38,7 +38,7 @@ app = Flask(__name__)
 init_app(app)
 
 
-@app.route("/synchronize")
+@app.route("/synchronize", methods=["GET", "POST"])
 @check_authorization
 @check_sign
 def update_data():
@@ -67,7 +67,7 @@ def return_server_data():
     return r
 
 
-@app.route("/getdata")
+@app.route("/getdata", methods=["GET"])
 @check_authorization
 def get_data():
     datas = database.get_all_data()
