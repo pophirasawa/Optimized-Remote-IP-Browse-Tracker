@@ -35,11 +35,14 @@ class DataSynchronizer(threading.Thread):
 
     def run(self):
         while True:
-            header = self.__get_headers()
-            send = threading.Thread(target=self.__send_request, args=[header])
-            send.daemon = True
-            send.start()
+            self.refresh_data()
             time.sleep(5)
+
+    def refresh_data(self):
+        header = self.__get_headers()
+        send = threading.Thread(target=self.__send_request, args=[header])
+        send.daemon = True
+        send.start()
 
     def get_data(self):
         while True:
@@ -67,7 +70,7 @@ class DataSynchronizer(threading.Thread):
                 "GET",
                 self.server_address + self.SynchronizerRouting,
                 headers=header,
-                timeout=10,
+                timeout=3,
                 verify=False,
             )
 
