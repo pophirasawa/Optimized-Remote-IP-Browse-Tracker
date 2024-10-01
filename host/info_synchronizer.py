@@ -2,8 +2,11 @@ import requests
 import threading
 from utils import GetAddressUtil
 from utils import CryptoUtil
+from utils import GetExtraInfoUtil
 from Crypto.Hash.SHA256 import SHA256Hash
 import time
+import re
+import yaml
 import json
 
 
@@ -23,11 +26,12 @@ class InfoSynchronizer(threading.Thread):
     SynchronizerRouting = "/synchronize"
 
     def __init__(
-        self, config, get_address_util: GetAddressUtil, crypto_util: CryptoUtil
+        self, config, get_address_util: GetAddressUtil, crypto_util: CryptoUtil, update_net_speed: GetExtraInfoUtil.UpdateNetSpeed
     ):
         threading.Thread.__init__(self)
         self.get_address_util = get_address_util
         self.crypto_util = crypto_util
+        self.update_net_speed = update_net_speed
         self.config = config
         self.name = config["name"]
         self.uid = config["server"]["uid"]
@@ -52,6 +56,39 @@ class InfoSynchronizer(threading.Thread):
     def get_condition(self):
         return [self.connect_condition, self.v4_address, self.v6_address]
 
+    def __get_extra_info(self):
+        # def convert_to_function_name(extra_name):
+        #     # 先转换成大驼峰 使用正则表达式切分 再转换为蛇形
+        #     extra_name = extra_name[0].upper() + extra_name[1:]
+        #     spilt = ["get"] + re.findall(r'[A-Z][a-z]*', extra_name)
+        #     function_name = '_'.join(spilt).lower()
+        #     return function_name
+
+        extra_dict = {
+            "cpuUsage": [GetExtraInfoUtil.get_cpu_usage],
+            "netSpeed": [GetExtraInfoUtil.get_net_speed, self.update_net_speed],
+        }
+
+        config_path = "A.yaml"
+        extra_info = []
+
+        with open(config_path, "r") as f:
+            config = yaml.load(f, Loader=yaml.Loader)
+            extra_list = config["extra"]
+
+        for extra_name in extra_list:
+            if extra_dict.get(extra_name):
+                if len(extra_dict[extra_name]) > 1:
+                    extra_function = extra_dict[extra_name][0]
+                    extra_args = extra_dict[extra_name][1:]
+                    extra_info.append(extra_function(*extra_args))
+
+                else:
+                    extra_function = extra_dict[extra_name][0]
+                    extra_info.append(extra_function())
+    
+        return extra_info
+
     def __get_local_info(self):
         """
         获取ip地址
@@ -61,12 +98,15 @@ class InfoSynchronizer(threading.Thread):
         self.v6_address = self.get_address_util.get_v6_address()
         encode_ipv4 = self.crypto_util.encode(self.v4_address)
         encode_ipv6 = self.crypto_util.encode(self.v6_address)
+        extra_info = self.__get_extra_info()
         data = {
             "name": self.name,
             "uid": self.uid,
             "ipv4": encode_ipv4,
             "ipv6": encode_ipv6,
+            "extra": json.dumps(extra_info),
         }
+        print(data)
 
         timestamp = str(time.time())
         authorization_sign = self.__get_authorization_sign(timestamp)
