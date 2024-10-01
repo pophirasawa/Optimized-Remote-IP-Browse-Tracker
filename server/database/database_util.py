@@ -9,10 +9,16 @@ def update_data(data: dict, timestamp: str) -> bool:
     name = data["name"]
     ipv4 = data["ipv4"]
     ipv6 = data["ipv6"]
+    extra = data["extra"]
     data_already_exist = Data.query.filter(Data.uid == data_uid).count()
     if data_already_exist == 0:
         new_data = Data(
-            uid=data_uid, ipv4=ipv4, ipv6=ipv6, timestamp=timestamp, name=name
+            uid=data_uid,
+            ipv4=ipv4,
+            ipv6=ipv6,
+            timestamp=timestamp,
+            name=name,
+            extra=extra,
         )
         print(new_data.name)
         db.session.add(new_data)
@@ -20,7 +26,13 @@ def update_data(data: dict, timestamp: str) -> bool:
         now_time = float(time.time())
         if now_time < float(timestamp) + 30:
             Data.query.filter(Data.uid == data_uid).update(
-                {"ipv4": ipv4, "ipv6": ipv6, "timestamp": timestamp, "name": name}
+                {
+                    "ipv4": ipv4,
+                    "ipv6": ipv6,
+                    "timestamp": timestamp,
+                    "name": name,
+                    "extra": extra,
+                }
             )
         else:
             return False
@@ -44,6 +56,7 @@ def get_all_data() -> list:
             "ipv4": data.ipv4,
             "ipv6": data.ipv6,
             "name": data.name,
+            "extra": data.extra,
             "online": check_online(data.timestamp, now_time),
         }
         res.append(dict_data)

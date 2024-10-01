@@ -1,4 +1,5 @@
 from .db_ins import db
+from sqlalchemy import Column, VARCHAR, TEXT
 
 
 class Data(db.Model):
@@ -8,4 +9,5 @@ class Data(db.Model):
     uid = db.Column(db.String(64), unique=True)
     ipv4 = db.Column(db.String(64), unique=False)
     ipv6 = db.Column(db.String(64), unique=False)
+    extra = db.Column(TEXT, default="null")
     timestamp = db.Column(db.String(64), unique=False)

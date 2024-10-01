@@ -26,7 +26,11 @@ class InfoSynchronizer(threading.Thread):
     SynchronizerRouting = "/synchronize"
 
     def __init__(
-        self, config, get_address_util: GetAddressUtil, crypto_util: CryptoUtil, update_net_speed: GetExtraInfoUtil.UpdateNetSpeed
+        self,
+        config,
+        get_address_util: GetAddressUtil,
+        crypto_util: CryptoUtil,
+        update_net_speed: GetExtraInfoUtil.UpdateNetSpeed,
     ):
         threading.Thread.__init__(self)
         self.get_address_util = get_address_util
@@ -44,14 +48,17 @@ class InfoSynchronizer(threading.Thread):
 
     def run(self):
         while True:
-            data, header = self.__get_local_info()
-            if self.v4_address is None:
-                continue
-
-            send = threading.Thread(target=self.__send_local_info, args=[data, header])
-            send.daemon = True
-            send.start()
+            self.update()
             time.sleep(5)
+
+    def update(self):
+        data, header = self.__get_local_info()
+        if self.v4_address is None:
+            return
+
+        send = threading.Thread(target=self.__send_local_info, args=[data, header])
+        send.daemon = True
+        send.start()
 
     def get_condition(self):
         return [self.connect_condition, self.v4_address, self.v6_address]
@@ -75,7 +82,8 @@ class InfoSynchronizer(threading.Thread):
         with open(config_path, "r") as f:
             config = yaml.load(f, Loader=yaml.Loader)
             extra_list = config["extra"]
-
+        if extra_list is None:
+            return None
         for extra_name in extra_list:
             if extra_dict.get(extra_name):
                 if len(extra_dict[extra_name]) > 1:
@@ -86,7 +94,7 @@ class InfoSynchronizer(threading.Thread):
                 else:
                     extra_function = extra_dict[extra_name][0]
                     extra_info.append(extra_function())
-    
+
         return extra_info
 
     def __get_local_info(self):
@@ -106,7 +114,6 @@ class InfoSynchronizer(threading.Thread):
             "ipv6": encode_ipv6,
             "extra": json.dumps(extra_info),
         }
-        print(data)
 
         timestamp = str(time.time())
         authorization_sign = self.__get_authorization_sign(timestamp)
