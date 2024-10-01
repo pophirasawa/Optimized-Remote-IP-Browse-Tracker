@@ -8,6 +8,17 @@ import time
 from pystray import Icon, Menu, MenuItem
 from PIL import Image
 import threading
+import ctypes
+import os
+
+
+def is_running() -> bool:
+    mutex_name = "MyAppMutex"
+    mutex = ctypes.windll.kernel32.CreateMutexW(None, True, mutex_name)
+    if ctypes.windll.kernel32.GetLastError() == 183:  # ERROR_ALREADY_EXISTS
+        ctypes.windll.kernel32.CloseHandle(mutex)
+        return True
+    return False
 
 
 def run():
@@ -16,12 +27,13 @@ def run():
     my_get_address_util = GetAddressUtil(config)
     net_speed_measure = GetExtraInfoUtil.UpdateNetSpeed()
 
-    my_send_message_util = InfoSynchronizer(config, my_get_address_util, my_crypto_util, net_speed_measure)
+    my_send_message_util = InfoSynchronizer(
+        config, my_get_address_util, my_crypto_util, net_speed_measure
+    )
     my_get_address_util.start()
     my_send_message_util.start()
     net_speed_measure.start()
 
-    
     def main_loop():
         while True:
             time.sleep(1)
@@ -56,5 +68,9 @@ icon = Icon(
 
 
 if __name__ == "__main__":
-    run()
-    icon.run_detached()
+
+    if is_running():
+        raise Exception("software is running.")
+    else:
+        run()
+        icon.run_detached()
